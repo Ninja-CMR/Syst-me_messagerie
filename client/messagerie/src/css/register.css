@@ -1,0 +1,43 @@
+.registerContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;  
+}
+
+.formRegister{
+    display: flex;
+    flex-direction: column;
+    width: 16rem;
+    transform: translateY(40%);
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: rgba(255, 255, 255, 0.356);
+    border-radius: 10px;
+    padding: 50px;
+}
+.formRegister h2{
+    margin-bottom: 10px;
+}
+.inputRegister{
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+}
+.btn{
+    background-color: rgb(0, 94, 20);
+    color: white;
+    width: 100% ; 
+    display: block;
+    padding: 7px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+}
+.TextRegister{
+    text-align: center;
+    margin-top: 10px;
+}

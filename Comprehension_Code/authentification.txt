@@ -1,0 +1,13 @@
+Dans le fichier route authentification on a créé deux routes principales 
+router.post('/register' , authController.register) ; 
+router.post('/login' , authController.login) ;
+ et dans le controlleur d'authentification on doit retoruver les fonctions principales register et login 
+
+Dans la fonction register on devra vérifier si l'utilsateur existe déjà via la syntaxe User.findOne(paramètre : valeur) et la
+réponse si on ne retrouev pas l'utilsateur via une condition ca ressort une réponse json de status 400 
+
+Ensuite on a le hachage du mot de passe 
+Dans ce cas on a la génération du salt(qui est une valeur aléatoire ajoutée pour renforcer 
+la sécurité ) via bcrypt.genSalt(10) (10 représente la complexité du hachage)
+On effectuera un hachage effectif via bcrypt.hash(password , salt) ; (Dans ce cas on combine le hachage du mot de passe et 
+du salt )
