@@ -1,0 +1,33 @@
+.proposContainer{
+    margin: 0 50px;
+    background-color:#F8F8F8;
+}
+.propos{
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+
+    margin-top: 100px;
+}
+.partF{
+    padding: 0 50px;
+}
+.partF h2{
+    font-size: 36px;
+    color: #5CAEF2;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.partF p {
+    font-size: 26px;
+}
+.imgPro{
+    width: 654px;
+    height: 350px;
+}
+.CardSection{
+    display: flex;
+    justify-content: center;
+    flex-wrap:wrap ;
+    gap: 10px;
+}

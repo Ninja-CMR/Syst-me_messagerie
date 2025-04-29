@@ -1,0 +1,33 @@
+.navbar{
+    background-color: #5CAEF2;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.navbar-brand{
+    text-decoration: none;
+    font-size: 24px;
+    color: #f8f8f8;
+    font-weight: bold;
+}
+.navbar-links {
+  display: flex;
+  gap: 2rem;
+}
+.nav-link{
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    transition: background-color 0.2s;
+    background-color: white;
+    color: #5CAEF2;
+    text-decoration: none;
+}
+.linkNav{
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    transition: background-color 0.2s;
+    text-decoration: none;
+    color: #f8f8f8;
+    font-weight: bold;
+}  

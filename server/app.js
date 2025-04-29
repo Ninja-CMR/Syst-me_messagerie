@@ -10,7 +10,6 @@ const dotenv = require('dotenv')
 const crypto = require('crypto');
 const server = http.createServer(app)
 const User  = require("./models/user")
-const messageModel = require("./models/messageModels")
 const authRoutes = require('./routes/authRoutes')
 const messageRoutes = require('./routes/message')
 
@@ -29,9 +28,6 @@ mongoose.connect('mongodb://127.0.0.1:27017/messagerie')
 
 //Connexion de l'utilisateur 
 
-
-//Declaration des routes
-
 const io = new Server(server , {
     cors :{
         origin : '*' , 
@@ -40,14 +36,46 @@ const io = new Server(server , {
     }
 })
 
+let onlineUsers = [] ; // Tableau pour stocker les utilisateurs en ligne
 
 io.on ("connection" , (socket) =>{
-    console.log(`Utilisateur connecté ${socket.id}`)
+    console.log(`Utilisateur connecté ${socket.id}`)  ; 
+    //Quand un utilisateur se connecte, on l'ajoute à la liste des utilisateurs en ligne
+    socket.on('userconnected', (username) => {
+        console.log(`${username} est en ligne avec l'ID ${socket.id}`);
+        onlineUsers.push({ username, socketId: socket.id });
+        io.emit('updateOnlineUsers' , onlineUsers); // Met à jour la liste des utilisateurs en ligne pour tous les clients
+    })
+
+    socket.on('send_message', async (data) => {
+        const { sender, receiver, content } = data;
+        const Message = require('./models/messageModels');
+      
+        const encryptedContent = Message.encryptContent(content);
+        const message = new Message({ sender, receiver, content: encryptedContent });
+        await message.save();
+      
+        io.emit('receive_message', {
+          sender,
+          receiver, 
+          content: message.decryptContent(), // Renvoie le message déchiffré au front
+        });
+      });
+     
+    socket.on('disconnect' , ()=>{
+        console.log('Utilisateur déconnecté' , socket.id) ; 
+        //Quand un utilisateur se déconnecte, on le retire de la liste des utilisateurs en ligne
+        onlineUsers = onlineUsers.filter(user => user.socketId !== socket.id);
+
+        //Mise à jour de la liste des utilisateurs en ligne pour tous les clients
+        io.emit('updateOnlineUsers', onlineUsers);
+        })
+        
 })
 
 //Définition des routes 
 app.use('/api/auth' , authRoutes)  ; //Routes pour l'authentification 
-/*app.use('/api/message' , messageRoutes) */// Routes pour les messages 
+app.use('/api/messages' , messageRoutes) /// Routes pour les messages 
 
 module.exports = app
 

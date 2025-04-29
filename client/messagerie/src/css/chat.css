@@ -1,0 +1,83 @@
+.chatApp{
+    margin-top: 10px;
+    display: flex;
+    height: 100vh;
+}
+.rigthSlide{
+    background-color: white;
+    flex: 2;
+}
+.leftSlide{
+    background-color: #5caef281;
+    flex: 1;
+    border-radius: 10px ;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+.filtre{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: center;
+    margin: 20px;
+    padding-bottom: 10px;
+    border-bottom: white 2px solid;
+    /*position: fixed;*/
+}
+.btn-fonctionnalité button{
+    padding: 8px;
+    background-color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+.btn-fonctionnalité button:hover{
+    background-color: #5caef281;
+}
+.sendMessage{
+    position: relative;
+    top: 90%;
+    margin-left: 100px;
+}
+.inputSend{
+    padding: 10px 150px;
+    outline: none;
+}
+.inputSend input:hover{
+    transition: ease-in-out 0.8s;
+    outline: #5caef2;
+}
+.btnSend{
+    padding: 10px;
+    background-color: #5caef2;
+    border: none;
+    color: white;
+    font-size: 16px;
+    margin-left: 10px;
+}
+.containerSearch{
+    margin-top: 20px;
+}
+.SearchInput{
+    padding: 10px 90px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    margin-top: 20px;
+    text-align: left;
+}
+.paramètres{
+    background-color: #5caef236;
+    width: 100px;
+    border-radius: 5px;
+}
+.leftSlide h3{
+    color: white;
+    text-align: left;
+    font-size: 25px;
+    margin-right: 220px;
+    margin-top: 10px;
+    font-weight: bold;
+}

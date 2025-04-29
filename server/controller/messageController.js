@@ -1,43 +1,55 @@
 const Message = require('../models/messageModels') ; 
-const {encryt , decrypt} = require('../utils/cryto') ;
+const {encrypt , decrypt} = require('../utils/crypto') ;
 
-exports.sendMessage = async(req , res)=>{
+exports.sendMessage = async (req, res) => {
     try{
-        //Extraction des données du messages depuis le corps de la requête
-
-        const {sender , receiver , content} = req.body ;
-
-        //Chiffrement du message avant enregistrement 
-        const{iv, encrypted}  = encrypted(content)  ; 
-        const messageContent = {iv , encyptedData}
-
-
-        //Creation d'un nouveau message 
-        const newMessage = new Message({sender ,receiver , content}) ; 
-        await newMessage.save(); 
-
-        res.status(201).json({message : 'Message envoyé avec succès ' , data : newMessage})
-    }catch(error){
-        res.status(500).json({error :error.message })
+        console.log(sender , receiver , content)
+    } catch(err){
+        console.log(err.message) ; 
     }
-}
-
+    const { sender, receiver, content } = req.body;
+  
+    if (!sender || !receiver || !content) {
+      console.log('❌ Données manquantes :', req.body);
+      return res.status(400).json({ error: 'Champs manquants' });
+    }
+  
+    try {
+      const { iv, encryptedData } = encrypt(content);
+  
+      const newMessage = new Message({
+        sender,
+        receiver,
+        content: encryptedData,
+        iv
+      });
+  
+      await newMessage.save();
+      console.log('✅ Message sauvegardé avec chiffrement');
+  
+      res.status(201).json({
+        message: 'Message envoyé avec succès',
+        data: newMessage
+      });
+    } catch (error) {
+      console.log('❌ Erreur lors de l’envoi :', error.message);
+      res.status(500).json({ error: error.message });
+    }
+  };
 exports.receiveMessage  = async(req , res)=>{
-
+    const {sender , receiver} = req.query ; 
     try{
-        //On recupère l'Id de l'utilsateur via les paramètres de l'url
-        const {userId} = req.params ; 
-        //Recherche des messages addressés à cet utilisateur, triés par date creation
-        const messages = await Message.find({receiver  : userId}).sort({createdAt : 1}); 
+            //Recherche des messages addressés à cet utilisateur, triés par date creation
+        const messages = await Message.find({sender ,receiver})
 
         //Déchiffrement du message 
         const decryptedMessages = messages.map(msg =>{
             return{
                 ...msg._doc, 
-                content : decrypt(msg.content.encryptedData , msg.content.iv)
+                content : decrypt({content : msg.content, iv :msg.iv}) 
             };
         });
-        res.status(201).json(messages)
+        res.status(201).json(decryptedMessages)
     }catch(error){
         res.status(500).json({error : error.message})
     }

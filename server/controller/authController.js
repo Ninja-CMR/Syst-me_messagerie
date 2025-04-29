@@ -19,7 +19,9 @@ exports.login = async(req , res ) => {
 
         //Création du token JWT 
         const  token = jwt.sign ({id:user._id} , process.env.JWT_SECRET , {expiresIn : '1h'});
-        res.status(200).json({token : token})
+        res.status(200).json({token : token ,
+              user: { _id: user._id, username: user.username, email: user.email }
+        })
     }catch(error){
         res.status(500).json({error : error.message})
     }
@@ -41,7 +43,15 @@ exports.register = async(req , res) =>{
             await user.save() ; 
             //Génération du token 
         const token = jwt.sign({id: user._id} , 'secret_key' , {expiresIn : '1h'})
-        res.status(201).json({message : 'Inscription réussie ' , token})
+        res.status(201).json({
+            message: 'Inscription réussie',
+            token,
+            user: {
+                _id: user._id,
+                username: user.username,
+                email: user.email,
+            }
+        });
     }catch(error){
         res.status(500).json({message : 'Erreur serveur' , error})
     }
